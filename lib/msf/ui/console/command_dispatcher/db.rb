@@ -979,7 +979,11 @@ class Db
 			print_line "Usage: loot [-h] [addr1 addr2 ...] [-t <type1,type2>]"
 			print_line
 			print_line "  -a,--add          Add a loot to the list of addresses, instead of listing"
+<<<<<<< HEAD
 			print_line "  -d,--delete       Delete *all* the loot associated with hosts, instead of searching"
+=======
+			print_line "  -d,--delete       Delete the hosts instead of searching"
+>>>>>>> loot add/remove command for msfconsole
 			print_line "  -f --file         File with contents of the loot to add"
 			print_line "  -i --info         Info of the loot to add"
 			print_line "  -t <type1,type2>  Search for a list of types"

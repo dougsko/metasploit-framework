@@ -29,7 +29,7 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
     <meta content="authenticity_token" name="csrf-param" />
-<meta content="e6UeUyXaJz8HwQcz0Yuj7aAwKZd2akGZUMoieXJ+EkY=" name="csrf-token" />
+<meta content="3OsryOMrkR4XuG/NieI5tZHdnepElqCciXGRJlSeNFg=" name="csrf-token" />
 
     <link href="https://a248.e.akamai.net/assets.github.com/assets/github-0c2e6b2f619f4aafd0dc861f56d66b8fc3b130eb.css" media="all" rel="stylesheet" type="text/css" />
     <link href="https://a248.e.akamai.net/assets.github.com/assets/github2-44fe9f300dbf91bdda085764a64c513382a751b2.css" media="all" rel="stylesheet" type="text/css" />
@@ -193,9 +193,9 @@
     <li class="pulse-nav"><a href="/rapid7/metasploit-framework/pulse" class="js-selected-navigation-item " data-selected-links="pulse /rapid7/metasploit-framework/pulse" rel="nofollow"><span class="octicon octicon-pulse"></span></a></li>
     <li><a href="/rapid7/metasploit-framework" class="js-selected-navigation-item selected" data-selected-links="repo_source repo_downloads repo_commits repo_tags repo_branches /rapid7/metasploit-framework">Code</a></li>
     <li><a href="/rapid7/metasploit-framework/network" class="js-selected-navigation-item " data-selected-links="repo_network /rapid7/metasploit-framework/network">Network</a></li>
-    <li><a href="/rapid7/metasploit-framework/pulls" class="js-selected-navigation-item " data-selected-links="repo_pulls /rapid7/metasploit-framework/pulls">Pull Requests <span class='counter'>53</span></a></li>
+    <li><a href="/rapid7/metasploit-framework/pulls" class="js-selected-navigation-item " data-selected-links="repo_pulls /rapid7/metasploit-framework/pulls">Pull Requests <span class='counter'>52</span></a></li>
 
-      <li><a href="/rapid7/metasploit-framework/issues" class="js-selected-navigation-item " data-selected-links="repo_issues /rapid7/metasploit-framework/issues">Issues <span class='counter'>54</span></a></li>
+      <li><a href="/rapid7/metasploit-framework/issues" class="js-selected-navigation-item " data-selected-links="repo_issues /rapid7/metasploit-framework/issues">Issues <span class='counter'>53</span></a></li>
 
       <li><a href="/rapid7/metasploit-framework/wiki" class="js-selected-navigation-item " data-selected-links="repo_wiki /rapid7/metasploit-framework/wiki">Wiki</a></li>
 
@@ -987,7 +987,7 @@
       <hr class="footer-divider">
 
 
-    <p class="right">&copy; 2013 <span title="0.05263s from fe4.rs.github.com">GitHub</span>, Inc. All rights reserved.</p>
+    <p class="right">&copy; 2013 <span title="0.06177s from fe13.rs.github.com">GitHub</span>, Inc. All rights reserved.</p>
     <a class="left" href="/">
       <span class="mega-octicon octicon-mark-github"></span>
     </a>
@@ -1033,7 +1033,7 @@
     </div>
 
     
-    <span id='server_response_time' data-time='0.05302' data-host='fe4'></span>
+    <span id='server_response_time' data-time='0.06216' data-host='fe13'></span>
     
   </body>
 </html>

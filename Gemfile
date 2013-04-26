@@ -2,28 +2,22 @@ source 'http://rubygems.org'
 
 # Need 3+ for ActiveSupport::Concern
 gem 'activesupport', '>= 3.0.0'
+# Needed for Msf::DbManager
+gem 'activerecord'
 # Needed for some admin modules (scrutinizer_add_user.rb)
 gem 'json'
+# Database models shared between framework and Pro.
+gem 'metasploit_data_models', '~> 0.7.1'
 # Needed by msfgui and other rpc components
 gem 'msgpack'
 # Needed by anemone crawler
 gem 'nokogiri'
+# Needed for module caching in Mdm::Module::Details
+gem 'pg', '>= 0.11'
 # Needed by anemone crawler
 gem 'robots'
-
-group :db do
-  # Needed for Msf::DbManager
-  gem 'activerecord'
-  # Database models shared between framework and Pro.
-  gem 'metasploit_data_models', '~> 0.6.15'
-  # Needed for module caching in Mdm::ModuleDetails
-  gem 'pg', '>= 0.11'
-end
-
-group :pcap do
-  # For sniffer and raw socket modules
-  gem 'pcaprub'
-end
+# For sniffer and raw socket modules
+gem 'pcaprub'
 
 group :development do
   # Markdown formatting for yard

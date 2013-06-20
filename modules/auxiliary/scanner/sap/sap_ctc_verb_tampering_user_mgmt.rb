@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
   
 
 
@@ -1089,6 +1090,8 @@
 </html>
 
 =======
+=======
+>>>>>>> ee28b1a90e3162d0936fada451d392642716f256
 ##
 # This file is part of the Metasploit Framework and may be subject to
 # redistribution and commercial restrictions. Please see the Metasploit
@@ -1197,4 +1200,7 @@ class Metasploit4 < Msf::Auxiliary
 		end
 	end
 end
+<<<<<<< HEAD
 >>>>>>> Add final cleanup for sap_ctc_verb_tampering_user_mgmt
+=======
+>>>>>>> ee28b1a90e3162d0936fada451d392642716f256

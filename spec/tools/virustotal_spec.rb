@@ -1,8 +1,7 @@
 require 'spec_helper'
 
-load Metasploit::Framework.root.join('tools/virustotal.rb').to_path
+load Metasploit::Framework.root.join('tools/exploit/virustotal.rb').to_path
 
-require 'fastlib'
 require 'msfenv'
 require 'msf/base'
 require 'digest/sha2'

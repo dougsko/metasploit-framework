@@ -43,3 +43,5 @@ group :test do
   # Manipulate Time.now in specs
   gem 'timecop'
 end
+
+gem 'dorkdorkgo', :git => "https://github.com/dougsko/dorkdorkgo.git"

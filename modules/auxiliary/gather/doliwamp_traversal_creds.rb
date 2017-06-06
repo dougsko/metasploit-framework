@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
   include Msf::Auxiliary::Report
   include Msf::Exploit::Remote::HttpClient
@@ -34,7 +32,7 @@ class MetasploitModule < Msf::Auxiliary
       [
         OptString.new('TARGETURI',      [true, 'The path to Dolibarr', '/dolibarr/']),
         OptString.new('TRAVERSAL_PATH', [true, 'The traversal path to the application tmp directory', '../../../../../../../../tmp/'])
-      ], self.class)
+      ])
   end
 
   #
@@ -192,7 +190,7 @@ class MetasploitModule < Msf::Auxiliary
       print_warning("No credentials collected.")
       return
     end
-    cred_table = Rex::Ui::Text::Table.new(
+    cred_table = Rex::Text::Table.new(
       'Header'  => 'Dolibarr User Credentials',
       'Indent'  => 1,
       'Columns' => ['Username', 'Password', 'Admin', 'E-mail']

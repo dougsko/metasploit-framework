@@ -3,9 +3,7 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'rex'
 require 'rexml/document'
-require 'msf/core'
 require 'msf/core/auxiliary/report'
 
 class MetasploitModule < Msf::Post
@@ -56,7 +54,7 @@ class MetasploitModule < Msf::Post
     end
     print_status("Done, Tomcat Found.")
 
-    tbl_services = Rex::Ui::Text::Table.new(
+    tbl_services = Rex::Text::Table.new(
       'Header'  => "Tomcat Applications ",
       'Indent'  => 1,
       'Columns' =>
@@ -72,7 +70,7 @@ class MetasploitModule < Msf::Post
       tbl_services << r
     }
 
-    tbl_users = Rex::Ui::Text::Table.new(
+    tbl_users = Rex::Text::Table.new(
       'Header'  => "Tomcat Server Users ",
       'Indent'  => 1,
       'Columns' =>

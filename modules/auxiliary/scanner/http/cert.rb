@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
 
   include Msf::Exploit::Remote::Tcp
@@ -29,7 +27,7 @@ class MetasploitModule < Msf::Auxiliary
         Opt::RPORT(443),
         OptRegexp.new('ISSUER', [ true,  "Show a warning if the Issuer doesn't match this regex", '.*']),
         OptBool.new('SHOWALL', [ false, "Show all certificates (issuer,time) regardless of match", false]),
-      ], self.class)
+      ])
   end
 
   # Fingerprint a single host
@@ -59,7 +57,7 @@ class MetasploitModule < Msf::Auxiliary
       end
     end
 
-    if cert.issuer.to_s !~ /#{datastore['ISSUER']}/n
+    if cert.issuer.to_s !~ /#{datastore['ISSUER'].source}/n
       print_good("#{ip} - '#{vhostn}' : #{cert.issuer} (BAD ISSUER)" )
     elsif datastore['SHOWALL']
       # show verbose as status

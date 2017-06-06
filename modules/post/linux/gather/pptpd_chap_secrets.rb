@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Post
 
   include Msf::Post::File
@@ -26,7 +24,7 @@ class MetasploitModule < Msf::Post
     register_options(
       [
         OptString.new('FILE', [true, 'The default path for chap-secrets', '/etc/ppp/chap-secrets'])
-      ], self.class)
+      ])
   end
 
 
@@ -85,7 +83,7 @@ class MetasploitModule < Msf::Post
   # Extracts client, server, secret, and IP addresses
   #
   def extract_secrets(data)
-    tbl = Rex::Ui::Text::Table.new({
+    tbl = Rex::Text::Table.new({
       'Header'  => 'PPTPd chap-secrets',
       'Indent'  => 1,
       'Columns' => ['Client', 'Server', 'Secret', 'IP']

@@ -4,7 +4,6 @@
 ##
 
 
-require 'msf/core'
 require 'rex/proto/ntlm/message'
 
 
@@ -32,7 +31,7 @@ class MetasploitModule < Msf::Auxiliary
         Opt::RPORT(443),
         OptString.new('USERNAME', [ true, "The username to Authenticate with.", 'root' ]),
         OptString.new('PASSWORD', [ true, "The password to Authenticate with.", 'password' ])
-      ], self.class)
+      ])
   end
 
 
@@ -40,12 +39,12 @@ class MetasploitModule < Msf::Auxiliary
     if vim_do_login(datastore['USERNAME'], datastore['PASSWORD']) == :success
       # Get local Users and Groups
       user_list = vim_get_user_list(nil)
-      tmp_users = Rex::Ui::Text::Table.new(
+      tmp_users = Rex::Text::Table.new(
         'Header'  => "Users for server #{ip}",
         'Indent'  => 1,
         'Columns' => ['Name', 'Description']
       )
-      tmp_groups = Rex::Ui::Text::Table.new(
+      tmp_groups = Rex::Text::Table.new(
         'Header'  => "Groups for server #{ip}",
         'Indent'  => 1,
         'Columns' => ['Name', 'Description']
@@ -85,13 +84,13 @@ class MetasploitModule < Msf::Auxiliary
       else
         # Enumerate Domain Users and Groups
         esx_domains.each do |domain|
-          tmp_dusers = Rex::Ui::Text::Table.new(
+          tmp_dusers = Rex::Text::Table.new(
             'Header'  => "Users for domain #{domain}",
             'Indent'  => 1,
             'Columns' => ['Name', 'Description']
           )
 
-          tmp_dgroups = Rex::Ui::Text::Table.new(
+          tmp_dgroups = Rex::Text::Table.new(
             'Header'  => "Groups for domain #{domain}",
             'Indent'  => 1,
             'Columns' => ['Name', 'Description']

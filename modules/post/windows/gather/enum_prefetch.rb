@@ -3,9 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'rex'
-require 'msf/core'
-
 class MetasploitModule < Msf::Post
   include Msf::Post::File
   include Msf::Post::Windows::Priv
@@ -168,7 +165,7 @@ class MetasploitModule < Msf::Post
       return nil
     end
 
-    table = Rex::Ui::Text::Table.new(
+    table = Rex::Text::Table.new(
       'Header'  => "Prefetch Information",
       'Indent'  => 1,
       'Columns' =>

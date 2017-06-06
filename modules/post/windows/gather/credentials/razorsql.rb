@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-require 'rex'
 require 'msf/core/auxiliary/report'
 require 'openssl'
 
@@ -76,7 +74,7 @@ class MetasploitModule < Msf::Post
 
   def run
     print_status("Checking All Users...")
-    creds_tbl = Rex::Ui::Text::Table.new(
+    creds_tbl = Rex::Text::Table.new(
       'Header'  => 'RazorSQL User Credentials',
       'Indent'  => 1,
       'Columns' =>

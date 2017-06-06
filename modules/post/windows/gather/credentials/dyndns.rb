@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'msf/core/auxiliary/report'
 
 class MetasploitModule < Msf::Post
@@ -123,13 +122,13 @@ class MetasploitModule < Msf::Post
   #
   def do_report(data)
 
-    tbl  = Rex::Ui::Text::Table.new(
+    tbl  = Rex::Text::Table.new(
       'Header'  => 'DynDNS Client Data',
       'Indent'  => 1,
       'Columns' => ['Field', 'Value']
     )
 
-    creds  = Rex::Ui::Text::Table.new(
+    creds  = Rex::Text::Table.new(
       'Header'  => 'DynDNS Credentials',
       'Indent'  => 1,
       'Columns' => ['User', 'Password']

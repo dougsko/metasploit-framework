@@ -4,8 +4,6 @@
 ##
 
 
-require 'msf/core'
-
 
 class MetasploitModule < Msf::Auxiliary
 
@@ -31,7 +29,7 @@ class MetasploitModule < Msf::Auxiliary
   def run_host(ip)
 
     if !mssql_login_datastore
-      print_error("#{rhost}:#{rport} - Invalid SQL Server credentials")
+      print_error("Invalid SQL Server credentials")
       return
     end
 
@@ -110,7 +108,7 @@ class MetasploitModule < Msf::Auxiliary
           :proto => 'tcp'
           )
 
-    tbl = Rex::Ui::Text::Table.new(
+    tbl = Rex::Text::Table.new(
       'Header'  => 'MS SQL Server Hashes',
       'Indent'   => 1,
       'Columns' => ['Username', 'Hash']
@@ -150,7 +148,7 @@ class MetasploitModule < Msf::Auxiliary
       login = create_credential_login(login_data)
 
       tbl << [row[0], row[1]]
-      print_good("#{rhost}:#{rport} - Saving #{hashtype} = #{row[0]}:#{row[1]}")
+      print_good("Saving #{hashtype} = #{row[0]}:#{row[1]}")
     end
   end
 
@@ -160,7 +158,7 @@ class MetasploitModule < Msf::Auxiliary
     is_sysadmin = mssql_query(mssql_is_sysadmin())[:rows][0][0]
 
     if is_sysadmin == 0
-      print_error("#{rhost}:#{rport} - The provided credentials do not have privileges to read the password hashes")
+      print_error("The provided credentials do not have privileges to read the password hashes")
       return nil
     end
 

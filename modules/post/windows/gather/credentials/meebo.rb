@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'msf/core/auxiliary/report'
 
 class MetasploitModule < Msf::Post
@@ -42,7 +41,7 @@ class MetasploitModule < Msf::Post
 
   def parse_txt(file)
     begin
-      creds = Rex::Ui::Text::Table.new(
+      creds = Rex::Text::Table.new(
         'Header'  => 'Meebo Instant Messenger Credentials',
         'Indent'	=> 1,
         'Columns' =>

@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'metasploit/framework/login_scanner/chef_webui'
 require 'metasploit/framework/credential_collection'
 
@@ -36,8 +35,10 @@ class MetasploitModule < Msf::Auxiliary
     register_options(
       [
         Opt::RPORT(443),
+        OptString.new('USERNAME', [false, 'The username to specify for authentication', '']),
+        OptString.new('PASSWORD', [false, 'The password to specify for authentication', '']),
         OptString.new('TARGETURI', [ true,  'The path to the Chef Web UI application', '/']),
-      ], self.class)
+      ])
   end
 
   #
@@ -149,7 +150,9 @@ class MetasploitModule < Msf::Auxiliary
         cred_details:       @cred_collection,
         stop_on_success:    datastore['STOP_ON_SUCCESS'],
         bruteforce_speed: datastore['BRUTEFORCE_SPEED'],
-        connection_timeout: 5
+        connection_timeout: 5,
+        http_username: datastore['HttpUsername'],
+        http_password: datastore['HttpPassword']
       )
     )
   end

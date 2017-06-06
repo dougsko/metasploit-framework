@@ -4,8 +4,6 @@
 ##
 
 
-require 'msf/core'
-
 
 module MetasploitModule
 
@@ -21,7 +19,7 @@ module MetasploitModule
       'Author'        => [ 'scriptjunkie', 'sf' ],
       'License'       => MSF_LICENSE,
       'Platform'      => 'win',
-      'Arch'          => ARCH_X86_64,
+      'Arch'          => ARCH_X64,
       'PayloadCompat' =>
         {
           'Convention' => '-http -https',
@@ -55,7 +53,7 @@ module MetasploitModule
     register_options(
       [
         OptString.new('DLL', [ true, "The library path to load (UNC is OK)" ]),
-      ], self.class )
+      ])
   end
 
   def generate

@@ -3,9 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'rex'
-require 'msf/core'
-
 class MetasploitModule < Msf::Post
   include Msf::Auxiliary::Report
   include Msf::Post::Windows::LDAP
@@ -33,7 +30,7 @@ class MetasploitModule < Msf::Post
     register_options([
       OptString.new('ADDITIONAL_FIELDS', [false, 'Additional fields to retrieve, comma separated', nil]),
       OptString.new('FILTER', [false, 'Customised LDAP filter', nil])
-    ], self.class)
+    ])
   end
 
   def run
@@ -69,10 +66,10 @@ class MetasploitModule < Msf::Post
   # the database.
   #
   # @param [Array<Array<Hash>>] the LDAP query results to parse
-  # @return [Rex::Ui::Text::Table] the table containing all the result data
+  # @return [Rex::Text::Table] the table containing all the result data
   def parse_results(results)
     # Results table holds raw string data
-    results_table = Rex::Ui::Text::Table.new(
+    results_table = Rex::Text::Table.new(
       'Header'     => "Domain Groups",
       'Indent'     => 1,
       'SortIndex'  => -1,

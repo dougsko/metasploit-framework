@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'msf/core/auxiliary/report'
 
 class MetasploitModule < Msf::Post
@@ -29,7 +28,7 @@ class MetasploitModule < Msf::Post
   end
 
   def run
-    creds = Rex::Ui::Text::Table.new(
+    creds = Rex::Text::Table.new(
       'Header'  => 'Nimbuzz Instant Messenger Credentials',
       'Indent'   => 1,
       'Columns' =>

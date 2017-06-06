@@ -14,8 +14,6 @@
 # provided excellent feedback. Some people just seem to enjoy hacking SAP :)
 ##
 
-require "msf/core"
-
 class MetasploitModule < Msf::Auxiliary
 
   include Msf::Exploit::Remote::HttpClient
@@ -45,9 +43,9 @@ class MetasploitModule < Msf::Auxiliary
       [
         Opt::RPORT(8000),
         OptString.new('CLIENT', [true, 'SAP Client', '001']),
-        OptString.new('USERNAME', [true, 'Username', 'SAP*']),
-        OptString.new('PASSWORD', [true, 'Password', '06071992'])
-      ], self.class)
+        OptString.new('HttpUsername', [true, 'Username', 'SAP*']),
+        OptString.new('HttpPassword', [true, 'Password', '06071992'])
+      ])
   end
 
   def run_host(ip)
@@ -70,7 +68,7 @@ class MetasploitModule < Msf::Auxiliary
         'cookie' => "sap-usercontext=sap-language=EN&sap-client=#{datastore['CLIENT']}",
         'ctype' => 'text/xml; charset=UTF-8',
         'encode_params' => false,
-        'authorization' => basic_auth(datastore['USERNAME'], datastore['PASSWORD']),
+        'authorization' => basic_auth(datastore['HttpUsername'], datastore['HttpPassword']),
         'headers' => {
           'SOAPAction' => 'urn:sap-com:document:sap:rfc:functions',
         },

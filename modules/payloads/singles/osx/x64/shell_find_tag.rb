@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'msf/core/handler/find_tag'
 require 'msf/base/sessions/command_shell'
 require 'msf/base/sessions/command_shell_options'
@@ -23,7 +22,7 @@ module MetasploitModule
       'Author'        => 'nemo <nemo[at]felinemenace.org>',
       'License'       => MSF_LICENSE,
       'Platform'      => 'osx',
-      'Arch'          => ARCH_X86_64,
+      'Arch'          => ARCH_X64,
       'Handler'       => Msf::Handler::FindTag,
       'Session'       => Msf::Sessions::CommandShellUnix
 
@@ -33,7 +32,7 @@ module MetasploitModule
         [
           OptString.new('CMD',  [ true,  "The command string to execute", "/bin/sh" ]),
           OptString.new('TAG',  [ true,  "The tag to test for", "NEMO" ]),
-      ], self.class)
+      ])
   end
 
   #

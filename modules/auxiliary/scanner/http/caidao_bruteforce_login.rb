@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'metasploit/framework/credential_collection'
 require 'metasploit/framework/login_scanner/caidao'
 
@@ -36,10 +35,10 @@ class MetasploitModule < Msf::Auxiliary
           'The file that contains a list of of probable passwords.',
           File.join(Msf::Config.install_root, 'data', 'wordlists', 'unix_passwords.txt')
         ])
-      ], self.class)
+      ])
 
     # caidao does not have an username, there's only password
-    deregister_options('USERNAME', 'USER_AS_PASS', 'USERPASS_FILE', 'USER_FILE', 'DB_ALL_USERS')
+    deregister_options('HttpUsername', 'HttpPassword', 'USERNAME', 'USER_AS_PASS', 'USERPASS_FILE', 'USER_FILE', 'DB_ALL_USERS')
   end
 
   def scanner(ip)
@@ -61,7 +60,9 @@ class MetasploitModule < Msf::Auxiliary
           cred_details:       cred_collection,
           stop_on_success:    datastore['STOP_ON_SUCCESS'],
           bruteforce_speed:   datastore['BRUTEFORCE_SPEED'],
-          connection_timeout: 5
+          connection_timeout: 5,
+          http_username: datastore['HttpUsername'],
+          http_password: datastore['HttpPassword']
         ))
     }.call
   end

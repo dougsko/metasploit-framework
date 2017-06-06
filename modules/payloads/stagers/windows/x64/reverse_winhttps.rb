@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'msf/core/handler/reverse_https'
 require 'msf/core/payload/windows/x64/reverse_winhttps'
 
@@ -26,7 +25,7 @@ module MetasploitModule
       'Author'      => [ 'OJ Reeves' ],
       'License'     => MSF_LICENSE,
       'Platform'    => 'win',
-      'Arch'        => ARCH_X86_64,
+      'Arch'        => ARCH_X64,
       'Handler'     => Msf::Handler::ReverseHttps,
       'Convention'  => 'sockrdi https',
       'Stager'      => { 'Payload' => '' }))

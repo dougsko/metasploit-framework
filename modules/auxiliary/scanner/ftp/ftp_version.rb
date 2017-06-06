@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
 
   include Msf::Exploit::Remote::Ftp
@@ -22,7 +20,7 @@ class MetasploitModule < Msf::Auxiliary
     register_options(
       [
         Opt::RPORT(21),
-      ], self.class)
+      ])
   end
 
   def run_host(target_host)
@@ -33,7 +31,7 @@ class MetasploitModule < Msf::Auxiliary
 
     if(banner)
       banner_sanitized = Rex::Text.to_hex_ascii(self.banner.to_s)
-      print_status("#{rhost}:#{rport} FTP Banner: '#{banner_sanitized}'")
+      print_status("FTP Banner: '#{banner_sanitized}'")
       report_service(:host => rhost, :port => rport, :name => "ftp", :info => banner_sanitized)
     end
 

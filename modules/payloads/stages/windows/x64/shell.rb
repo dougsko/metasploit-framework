@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'msf/base/sessions/command_shell'
 require 'msf/base/sessions/command_shell_options'
 
@@ -19,7 +18,7 @@ module MetasploitModule
       'Author'        => [ 'sf' ],
       'License'       => MSF_LICENSE,
       'Platform'      => 'win',
-      'Arch'          => ARCH_X86_64,
+      'Arch'          => ARCH_X64,
       'Session'       => Msf::Sessions::CommandShellWindows,
       'PayloadCompat' =>
         {

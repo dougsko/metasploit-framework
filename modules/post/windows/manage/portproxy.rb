@@ -28,7 +28,7 @@ class MetasploitModule < Msf::Post
         OptPort.new(   'LOCAL_PORT',      [ true, 'Port number to which to listen.']),
         OptBool.new(   'IPV6_XP',         [ true, 'Install IPv6 on Windows XP (needed for v4tov4).', true]),
         OptEnum.new(   'TYPE',            [ true, 'Type of forwarding', 'v4tov4', ['v4tov4','v6tov6','v6tov4','v4tov6']])
-      ], self.class)
+      ])
     end
 
   def run
@@ -49,7 +49,7 @@ class MetasploitModule < Msf::Post
   end
 
   def enable_portproxy
-    rtable = Rex::Ui::Text::Table.new(
+    rtable = Rex::Text::Table.new(
       'Header' => 'Port Forwarding Table',
       'Indent' =>  3,
       'Columns' => ['LOCAL IP', 'LOCAL PORT', 'REMOTE IP', 'REMOTE PORT']

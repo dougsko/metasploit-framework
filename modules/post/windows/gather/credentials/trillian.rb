@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-require 'rex'
 require 'rex/parser/ini'
 require 'msf/core/auxiliary/report'
 
@@ -54,7 +52,7 @@ class MetasploitModule < Msf::Post
         return
       end
 
-      creds = Rex::Ui::Text::Table.new(
+      creds = Rex::Text::Table.new(
         'Header'  => 'Trillian versions 4-5 Instant Messenger Credentials',
         'Indent'	=> 1,
         'Columns' =>

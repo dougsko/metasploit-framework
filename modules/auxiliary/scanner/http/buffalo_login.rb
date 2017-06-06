@@ -3,13 +3,12 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'metasploit/framework/credential_collection'
 require 'metasploit/framework/login_scanner/buffalo'
 
 class MetasploitModule < Msf::Auxiliary
-  include Msf::Auxiliary::Scanner
   include Msf::Exploit::Remote::HttpClient
+  include Msf::Auxiliary::Scanner
   include Msf::Auxiliary::Report
   include Msf::Auxiliary::AuthBrute
 
@@ -27,9 +26,7 @@ class MetasploitModule < Msf::Auxiliary
     register_options(
       [
         Opt::RPORT(80)
-      ], self.class)
-
-    deregister_options('RHOST')
+      ])
   end
 
   def run_host(ip)
@@ -48,7 +45,9 @@ class MetasploitModule < Msf::Auxiliary
         cred_details: cred_collection,
         stop_on_success: datastore['STOP_ON_SUCCESS'],
         bruteforce_speed: datastore['BRUTEFORCE_SPEED'],
-        connection_timeout: 10
+        connection_timeout: 10,
+        http_username: datastore['HttpUsername'],
+        http_password: datastore['HttpPassword']
       )
     )
 

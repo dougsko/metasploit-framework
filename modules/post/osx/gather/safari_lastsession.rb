@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'rexml/document'
 
 class MetasploitModule < Msf::Post
@@ -157,7 +156,7 @@ class MetasploitModule < Msf::Post
   # Runs the module
   #
   def run
-    cred_tbl = Rex::Ui::Text::Table.new({
+    cred_tbl = Rex::Text::Table.new({
       'Header'  => 'Credentials',
       'Indent'  => 1,
       'Columns' => ['Domain', 'Username', 'Password']

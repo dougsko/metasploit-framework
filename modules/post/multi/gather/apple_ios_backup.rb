@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'rex/parser/apple_backup_manifestdb'
 
 class MetasploitModule < Msf::Post
@@ -29,7 +28,7 @@ class MetasploitModule < Msf::Post
         OptBool.new('PLISTS', [false, 'Collect all preference list files?', true]),
         OptBool.new('IMAGES', [false, 'Collect all image files?', false]),
         OptBool.new('EVERYTHING', [false, 'Collect all stored files? (SLOW)', false])
-      ], self.class)
+      ])
   end
 
   #
@@ -38,10 +37,10 @@ class MetasploitModule < Msf::Post
   #
   def run
     case session.platform
-    when /osx/
+    when 'osx'
       @platform = :osx
       paths = enum_users_unix
-    when /win/
+    when 'windows'
       @platform = :windows
       drive = session.sys.config.getenv('SystemDrive')
       os = session.sys.config.sysinfo['OS']

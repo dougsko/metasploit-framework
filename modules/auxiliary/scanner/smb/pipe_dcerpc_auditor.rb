@@ -4,8 +4,6 @@
 ##
 
 
-require 'msf/core'
-
 
 class MetasploitModule < Msf::Auxiliary
 
@@ -30,7 +28,7 @@ class MetasploitModule < Msf::Auxiliary
     register_options(
       [
         OptString.new('SMBPIPE', [ true,  "The pipe name to use (BROWSER)", 'BROWSER']),
-      ], self.class)
+      ])
   end
 
   @@target_uuids = [
@@ -274,7 +272,7 @@ class MetasploitModule < Msf::Auxiliary
 
         begin
           dcerpc_bind(handle)
-          print_line("#{ip} - UUID #{uuid[0]} #{uuid[1]} OPEN VIA #{datastore['SMBPIPE']}")
+          print_line("UUID #{uuid[0]} #{uuid[1]} OPEN VIA #{datastore['SMBPIPE']}")
           # Add Report
           report_note(
             :host	=> ip,

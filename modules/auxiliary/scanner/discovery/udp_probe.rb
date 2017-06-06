@@ -4,13 +4,15 @@
 ##
 
 
-require 'msf/core'
 require 'openssl'
 
 class MetasploitModule < Msf::Auxiliary
 
   include Msf::Auxiliary::Report
   include Msf::Auxiliary::Scanner
+  include Msf::Module::Deprecated
+
+  deprecated(Date.new(2016, 11, 23), 'auxiliary/scanner/discovery/udp_sweep')
 
   def initialize
     super(
@@ -23,12 +25,12 @@ class MetasploitModule < Msf::Auxiliary
     register_options(
       [
         Opt::CHOST,
-      ], self.class)
+      ])
 
     register_advanced_options(
       [
         OptBool.new('RANDOMIZE_PORTS', [false, 'Randomize the order the ports are probed', true])
-      ], self.class)
+      ])
 
     # Intialize the probes array
     @probes = []

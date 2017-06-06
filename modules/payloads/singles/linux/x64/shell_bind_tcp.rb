@@ -4,7 +4,6 @@
 ##
 
 
-require 'msf/core'
 require 'msf/core/handler/bind_tcp'
 require 'msf/base/sessions/command_shell'
 require 'msf/base/sessions/command_shell_options'
@@ -24,7 +23,7 @@ module MetasploitModule
       'Author'        => 'ricky',
       'License'       => MSF_LICENSE,
       'Platform'      => 'linux',
-      'Arch'          => ARCH_X86_64,
+      'Arch'          => ARCH_X64,
       'Handler'       => Msf::Handler::BindTcp,
       'Session'       => Msf::Sessions::CommandShellUnix,
       'Payload'       =>

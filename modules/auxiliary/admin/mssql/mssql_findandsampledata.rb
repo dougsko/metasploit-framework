@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 
 class MetasploitModule < Msf::Auxiliary
 
@@ -39,7 +37,7 @@ class MetasploitModule < Msf::Auxiliary
       [
         OptString.new('KEYWORDS', [ true, 'Keywords to search for','passw|credit|card']),
         OptInt.new('SAMPLE_SIZE', [ true, 'Number of rows to sample',  1]),
-      ], self.class)
+      ])
   end
 
   def print_with_underline(str)
@@ -356,7 +354,7 @@ class MetasploitModule < Msf::Auxiliary
     end
 
     # CREATE TABLE TO STORE SQL SERVER DATA LOOT
-    sql_data_tbl = Rex::Ui::Text::Table.new(
+    sql_data_tbl = Rex::Text::Table.new(
       'Header'  => 'SQL Server Data',
       'Indent'   => 1,
       'Columns' => ['Server', 'Database', 'Schema', 'Table', 'Column', 'Data Type', 'Sample Data', 'Row Count']

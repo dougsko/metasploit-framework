@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'rex/proto/dcerpc'
 require 'rex/proto/dcerpc/wdscp'
 require 'rex/parser/unattend'
@@ -40,14 +39,14 @@ class MetasploitModule < Msf::Auxiliary
     register_options(
       [
         Opt::RPORT(5040),
-      ], self.class)
+      ])
 
     deregister_options('RHOST', 'CHOST', 'CPORT', 'SSL', 'SSLVersion')
 
     register_advanced_options(
       [
         OptBool.new('ENUM_ARM', [true, 'Enumerate Unattend for ARM architectures (not currently supported by Windows and will cause an error in System Event Log)', false])
-      ], self.class)
+      ])
   end
 
   def run_host(ip)
@@ -91,7 +90,7 @@ class MetasploitModule < Msf::Auxiliary
       :info => "#{WDS_CONST::WDSCP_RPC_UUID} v1.0 Windows Deployment Services"
     )
 
-    table = Rex::Ui::Text::Table.new({
+    table = Rex::Text::Table.new({
       'Header' => 'Windows Deployment Services',
       'Indent' => 1,
       'Columns' => ['Architecture', 'Type', 'Domain', 'Username', 'Password']

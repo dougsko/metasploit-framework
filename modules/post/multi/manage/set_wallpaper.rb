@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Post
   include Msf::Post::File
   include Msf::Post::Windows::Registry
@@ -28,7 +26,7 @@ class MetasploitModule < Msf::Post
     register_options(
       [
         OptPath.new('WALLPAPER_FILE', [true, 'The local wallpaper file to set on the remote session'])
-      ], self.class)
+      ])
   end
 
   def upload_wallpaper(tempdir, file)
@@ -71,17 +69,12 @@ class MetasploitModule < Msf::Post
   end
 
   def os_set_wallpaper(file)
-    if session.type =~ /meterpreter/ && session.sys.config.sysinfo['OS'] =~ /darwin/i
-      platform = 'osx'
-    else
-      platform = session.platform
-    end
-    case platform
-    when /osx/
+    case session.platform
+    when 'osx'
       osx_set_wallpaper(file)
-    when /win/
+    when 'windows'
       win_set_wallpaper(file)
-    when /android/
+    when 'android'
       android_set_wallpaper(file)
     end
   end

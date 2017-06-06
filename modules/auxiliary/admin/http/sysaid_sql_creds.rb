@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'openssl'
 
 class MetasploitModule < Msf::Auxiliary
@@ -38,13 +37,13 @@ class MetasploitModule < Msf::Auxiliary
       [
         OptPort.new('RPORT', [true, 'The target port', 8080]),
         OptString.new('TARGETURI', [ true, 'SysAid path', '/sysaid']),
-      ], self.class)
+      ])
   end
 
 
   def decrypt_password (ciphertext)
     salt = [-87, -101, -56, 50, 86, 53, -29, 3].pack('c*')
-    cipher = OpenSSL::Cipher::Cipher.new("DES")
+    cipher = OpenSSL::Cipher.new("DES")
     base_64_code = Rex::Text.decode_base64(ciphertext)
     cipher.decrypt
     cipher.pkcs5_keyivgen 'inigomontoya', salt, 19

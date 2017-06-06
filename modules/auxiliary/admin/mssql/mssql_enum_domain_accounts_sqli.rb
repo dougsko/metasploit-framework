@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'msf/core/exploit/mssql_commands'
 
 class MetasploitModule < Msf::Auxiliary
@@ -35,7 +34,7 @@ class MetasploitModule < Msf::Auxiliary
     [
       OptInt.new('START_RID', [true, 'RID to start fuzzing at.', 500]),
       OptInt.new('END_RID', [true, 'RID to stop fuzzing at.', 3000])
-    ], self.class)
+    ])
   end
 
   def run
@@ -84,7 +83,7 @@ class MetasploitModule < Msf::Auxiliary
     print_good("#{domain_users.length} user accounts, groups, and computer accounts were found.")
 
     # Create table for report
-    windows_domain_login_table = Rex::Ui::Text::Table.new(
+    windows_domain_login_table = Rex::Text::Table.new(
       'Header'  => 'Windows Domain Accounts',
       'Ident'   => 1,
       'Columns' => ['name']

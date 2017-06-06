@@ -4,8 +4,6 @@
 ##
 
 
-require 'msf/core'
-
 
 module MetasploitModule
 
@@ -21,7 +19,7 @@ module MetasploitModule
       'Author'        => [ 'sf' ],
       'License'       => MSF_LICENSE,
       'Platform'      => 'win',
-      'Arch'          => ARCH_X86_64,
+      'Arch'          => ARCH_X64,
       'Payload'       =>
         {
           'Offsets' =>
@@ -51,7 +49,7 @@ module MetasploitModule
     register_options(
       [
         OptString.new('CMD', [ true, "The command string to execute" ]),
-      ], self.class )
+      ])
   end
 
   def generate

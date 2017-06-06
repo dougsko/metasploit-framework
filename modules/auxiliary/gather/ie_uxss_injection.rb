@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
 
   include Msf::Exploit::Remote::HttpServer
@@ -43,7 +41,7 @@ class MetasploitModule < Msf::Auxiliary
     [
       OptString.new('TARGET_URI', [ true, 'The URL for the target iframe' ]),
       OptString.new('CUSTOMJS', [ false, 'Custom JavaScript' ])
-    ], self.class)
+    ])
   end
 
   def setup
@@ -81,7 +79,7 @@ class MetasploitModule < Msf::Auxiliary
       host = "[#{host}]"
     end
 
-    if datastore['URIPORT'] != 0
+    if datastore['URIPORT']
       port = ':' + datastore['URIPORT'].to_s
     elsif (ssl and datastore["SRVPORT"] == 443)
       port = ''

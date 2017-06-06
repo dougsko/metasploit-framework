@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'rex'
-require 'msf/core'
 require 'msf/core/auxiliary/report'
 
 class MetasploitModule < Msf::Post
@@ -56,7 +54,7 @@ class MetasploitModule < Msf::Post
 
     print_status("Done, Databases Found.")
 
-    tbl = Rex::Ui::Text::Table.new(
+    tbl = Rex::Text::Table.new(
       'Header'  => "Installed Databases",
       'Indent'  => 1,
       'Columns' =>

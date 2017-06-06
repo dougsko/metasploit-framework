@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 
 class MetasploitModule < Msf::Auxiliary
 
@@ -30,7 +28,7 @@ class MetasploitModule < Msf::Auxiliary
 
     register_options([
       Opt::RPORT(6000)
-    ],self.class)
+    ])
   end
 
   def run_host(ip)
@@ -56,7 +54,7 @@ class MetasploitModule < Msf::Auxiliary
       if(success == 1)
         vendor_len = response[24,2].unpack('v')[0]
         vendor = response[40,vendor_len].unpack('A*')[0]
-        print_status("#{ip} Open X Server (#{vendor})")
+        print_good("#{ip} Open X Server (#{vendor})")
         # Add Report
         report_note(
           :host	=> ip,
@@ -67,7 +65,7 @@ class MetasploitModule < Msf::Auxiliary
           :data	=> "Open X Server (#{vendor})"
       )
       elsif (success == 0)
-        print_status("#{ip} Access Denied")
+        print_error("#{ip} Access Denied")
       else
         # X can return a reason for auth failure but we don't really care for this
       end

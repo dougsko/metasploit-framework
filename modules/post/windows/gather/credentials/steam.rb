@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Post
 
   include Msf::Post::File
@@ -42,12 +40,12 @@ class MetasploitModule < Msf::Post
     # We will just use an x64 only defined env variable to check.
     progfiles_env = session.sys.config.getenvs('ProgramFiles(X86)', 'ProgramFiles')
     progfilesx86 = progfiles_env['ProgramFiles(X86)']
-    if not progfilesx86.empty? and progfilesx86 !~ /%ProgramFiles\(X86\)%/
+    if not progfilesx86.blank? and progfilesx86 !~ /%ProgramFiles\(X86\)%/
       progs = progfilesx86 # x64
     else
       progs = progfiles_env['ProgramFiles'] # x86
     end
-    path = progs + '\\Steam\\config'
+    path = "#{progs}\\Steam\\config"
 
     print_status("Checking for Steam configs in #{path}")
 

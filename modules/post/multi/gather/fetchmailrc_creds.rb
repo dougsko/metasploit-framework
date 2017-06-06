@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Post
 
   include Msf::Post::File
@@ -26,7 +24,7 @@ class MetasploitModule < Msf::Post
 
   def run
     # A table to store the found credentials.
-    cred_table = Rex::Ui::Text::Table.new(
+    cred_table = Rex::Text::Table.new(
     'Header'    => ".fetchmailrc credentials",
     'Indent'    => 1,
     'Columns'   =>

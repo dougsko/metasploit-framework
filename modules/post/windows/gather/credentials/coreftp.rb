@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-require 'rex'
 require 'msf/core/auxiliary/report'
 
 class MetasploitModule < Msf::Post
@@ -91,7 +89,7 @@ class MetasploitModule < Msf::Post
 
   def decrypt(encoded)
     cipher = [encoded].pack("H*")
-    aes = OpenSSL::Cipher::Cipher.new("AES-128-ECB")
+    aes = OpenSSL::Cipher.new("AES-128-ECB")
     aes.padding = 0
     aes.decrypt
     aes.key = "hdfzpysvpzimorhk"

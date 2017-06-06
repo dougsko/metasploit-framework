@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'msf/core/payload/transport_config'
 require 'msf/core/handler/bind_tcp'
 require 'msf/core/payload/windows/meterpreter_loader'
@@ -13,7 +12,7 @@ require 'rex/payloads/meterpreter/config'
 
 module MetasploitModule
 
-  CachedSize = 957999
+  CachedSize = 957487
 
   include Msf::Payload::TransportConfig
   include Msf::Payload::Windows
@@ -37,11 +36,12 @@ module MetasploitModule
     register_options([
       OptString.new('EXTENSIONS', [false, 'Comma-separate list of extensions to load']),
       OptString.new('EXTINIT',    [false, 'Initialization strings for extensions'])
-    ], self.class)
+    ])
   end
 
-  def generate
-    stage_meterpreter(true) + generate_config
+  def generate(opts={})
+    opts[:stageless] = true
+    stage_meterpreter(opts) + generate_config(opts)
   end
 
   def generate_config(opts={})

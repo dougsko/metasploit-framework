@@ -8,7 +8,6 @@
 # parses the usernames and passwords from it.
 ##
 
-require 'msf/core'
 require 'rex/ui/text/shell'
 require 'rex/proto/tftp'
 
@@ -40,7 +39,7 @@ class MetasploitModule < Msf::Auxiliary
         Opt::RPORT(69),
         Opt::RHOST('192.168.255.1'),
         OptString.new('REMOTE_CONFIG_NAME', [true, "The remote filename used to retrieve the configuration", "NVRAM\\D20.zlb"])
-      ], self.class)
+      ])
   end
 
   def setup
@@ -222,7 +221,7 @@ class MetasploitModule < Msf::Auxiliary
     headerlen = makeword(f.read(2))
     f.seek(userentryptr + 40) # sorry decimal
     entrylen = makeword(f.read(2)) # sorry this is decimal
-    logins = Rex::Ui::Text::Table.new(
+    logins = Rex::Text::Table.new(
       'Header' => "D20 usernames, passwords, and account levels\n(use for TELNET authentication)",
       'Indent' => 1,
       'Columns' => ["Type", "User Name", "Password"])

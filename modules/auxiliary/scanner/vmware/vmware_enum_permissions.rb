@@ -4,7 +4,6 @@
 ##
 
 
-require 'msf/core'
 require 'rex/proto/ntlm/message'
 
 
@@ -19,7 +18,7 @@ class MetasploitModule < Msf::Auxiliary
       'Name'           => 'VMWare Enumerate Permissions',
       'Description'    => %Q{
         This module will log into the Web API of VMWare and try to enumerate
-        all the user/group permissions. Unlike enum suers this is only
+        all the user/group permissions. Unlike enum users this is only
         users and groups that specifically have permissions defined within
         the VMware product
       },
@@ -33,7 +32,7 @@ class MetasploitModule < Msf::Auxiliary
         Opt::RPORT(443),
         OptString.new('USERNAME', [ true, "The username to Authenticate with.", 'root' ]),
         OptString.new('PASSWORD', [ true, "The password to Authenticate with.", 'password' ])
-      ], self.class)
+      ])
   end
 
 
@@ -67,7 +66,7 @@ class MetasploitModule < Msf::Auxiliary
       when :error
         print_error "An error occured while trying to enumerate the permissions on #{ip}"
       else
-        tmp_perms = Rex::Ui::Text::Table.new(
+        tmp_perms = Rex::Text::Table.new(
             'Header'  => "Permissions for VMWare #{ip}",
             'Indent'  => 1,
             'Columns' => ['Name', 'IsAGroup', 'Role', 'Role Summary']

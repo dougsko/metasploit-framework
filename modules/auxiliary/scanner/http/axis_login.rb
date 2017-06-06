@@ -4,7 +4,6 @@
 ##
 
 
-require 'msf/core'
 require 'metasploit/framework/login_scanner/axis2'
 require 'metasploit/framework/credential_collection'
 
@@ -40,7 +39,7 @@ class MetasploitModule < Msf::Auxiliary
     register_options( [
       Opt::RPORT(8080),
       OptString.new('TARGETURI', [false, 'Path to the Apache Axis Administration page', '/axis2/axis2-admin/login']),
-    ], self.class)
+    ])
   end
 
   # For print_* methods
@@ -83,7 +82,9 @@ class MetasploitModule < Msf::Auxiliary
         cred_details: cred_collection,
         stop_on_success: datastore['STOP_ON_SUCCESS'],
         bruteforce_speed: datastore['BRUTEFORCE_SPEED'],
-        connection_timeout: 5
+        connection_timeout: 5,
+        http_username: datastore['HttpUsername'],
+        http_password: datastore['HttpPassword']
       )
     )
 

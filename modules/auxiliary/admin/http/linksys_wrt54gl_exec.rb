@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
 
   include Msf::Exploit::Remote::HttpClient
@@ -42,15 +40,15 @@ class MetasploitModule < Msf::Auxiliary
       [
         Opt::RPORT(80),
         OptString.new('TARGETURI',[ true, 'PATH to OS Command Injection', '/apply.cgi']),
-        OptString.new('USERNAME',[ true, 'User to login with', 'admin']),
-        OptString.new('PASSWORD',[ false, 'Password to login with', 'password']),
+        OptString.new('HttpUsername',[ true, 'User to login with', 'admin']),
+        OptString.new('HttpPassword',[ false, 'Password to login with', 'password']),
         OptString.new('CMD', [ true, 'The command to execute', 'ping 127.0.0.1']),
         OptString.new('NETMASK', [ false, 'LAN Netmask of the router', '255.255.255.0']),
         OptAddress.new('LANIP', [ false, 'LAN IP address of the router (default is RHOST)']),
         OptString.new('ROUTER_NAME', [ false, 'Name of the router', 'cisco']),
         OptString.new('WAN_DOMAIN', [ false, 'WAN Domain Name', 'test']),
         OptString.new('WAN_MTU', [ false, 'WAN MTU', '1500'])
-      ], self.class)
+      ])
   end
 
   # If the user configured LANIP, use it. Otherwise, use RHOST.
@@ -66,7 +64,7 @@ class MetasploitModule < Msf::Auxiliary
   def run
     #setting up some basic variables
     uri = datastore['TARGETURI']
-    user = datastore['USERNAME']
+    user = datastore['HttpUsername']
     rhost = datastore['RHOST']
     netmask = datastore['NETMASK']
     routername = datastore['ROUTER_NAME']
@@ -75,10 +73,10 @@ class MetasploitModule < Msf::Auxiliary
 
     ip = lan_ip.split('.')
 
-    if datastore['PASSWORD'].nil?
+    if datastore['HttpPassword'].nil?
       pass = ""
     else
-      pass = datastore['PASSWORD']
+      pass = datastore['HttpPassword']
     end
 
     print_status("Trying to login with #{user} / #{pass}")

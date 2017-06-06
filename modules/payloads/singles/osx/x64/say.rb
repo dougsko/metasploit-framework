@@ -4,8 +4,6 @@
 ##
 
 
-require 'msf/core'
-
 module MetasploitModule
 
   CachedSize = 53
@@ -19,14 +17,14 @@ module MetasploitModule
       'Author'        => 'nemo <nemo[at]felinemenace.org>',
       'License'       => MSF_LICENSE,
       'Platform'      => 'osx',
-      'Arch'          => ARCH_X86_64
+      'Arch'          => ARCH_X64
     ))
 
     # exec payload options
     register_options(
       [
         OptString.new('TEXT',  [ true,  "The text to say", "Hello\!"]),
-    ], self.class)
+    ])
   end
 
   # build the shellcode payload dynamically based on the user-provided CMD

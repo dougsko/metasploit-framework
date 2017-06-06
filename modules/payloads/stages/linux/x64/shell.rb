@@ -4,7 +4,6 @@
 ##
 
 
-require 'msf/core'
 require 'msf/base/sessions/command_shell'
 require 'msf/base/sessions/command_shell_options'
 
@@ -19,7 +18,7 @@ module MetasploitModule
       'Author'        => 'ricky',
       'License'       => MSF_LICENSE,
       'Platform'      => 'linux',
-      'Arch'          => ARCH_X86_64,
+      'Arch'          => ARCH_X64,
       'Session'       => Msf::Sessions::CommandShellUnix,
       'Stage'         =>
         {

@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'rex'
-require 'msf/core'
 require 'rex/registry'
 
 class MetasploitModule < Msf::Post
@@ -226,7 +224,7 @@ class MetasploitModule < Msf::Post
       return nil
     end
 
-    table = Rex::Ui::Text::Table.new(
+    table = Rex::Text::Table.new(
       'Header'  =>  'MUICache Information',
       'Indent'  =>  1,
       'Columns' =>

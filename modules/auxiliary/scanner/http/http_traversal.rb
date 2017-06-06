@@ -8,8 +8,6 @@
 # ipax, neriberto, flambaz, bperry, egypt, and sinn3r for help
 #
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
 
   include Msf::Auxiliary::Scanner
@@ -67,7 +65,7 @@ class MetasploitModule < Msf::Auxiliary
             'Wordlist file to brute force',
             File.join(Msf::Config.install_root, 'data', 'wordlists', 'sensitive_files.txt')
           ])
-      ], self.class)
+      ])
 
     register_advanced_options(
       [
@@ -75,7 +73,7 @@ class MetasploitModule < Msf::Auxiliary
         OptString.new('TRIGGER',   [false,'Trigger string. Ex: ../', '']),
         OptString.new('FILE',      [false, 'Default file to read for the fuzzing stage', '']),
         OptString.new('COOKIE',    [false, 'Cookie value to use when sending the requests', ''])
-      ], self.class)
+      ])
 
     deregister_options('RHOST')
   end
@@ -166,7 +164,7 @@ class MetasploitModule < Msf::Auxiliary
     req['uri']        = this_path
     req['headers']    = {'Cookie'=>datastore['COOKIE']} if not datastore['COOKIE'].empty?
     req['data']       = data if not data.empty?
-    req['authorization'] = basic_auth(datastore['USERNAME'], datastore['PASSWORD'])
+    req['authorization'] = basic_auth(datastore['HttpUsername'], datastore['HttpPassword'])
 
     return req
   end

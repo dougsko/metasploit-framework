@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Post
 
   include Msf::Post::File
@@ -38,7 +36,7 @@ class MetasploitModule < Msf::Post
       },
       'Author'        => ['OJ Reeves'],
       'Platform'      => ['win'],
-      'SessionTypes'  => ['meterpreter', 'cmd'],
+      'SessionTypes'  => ['meterpreter', 'shell'],
       'Actions'       => [
         ['ADD',    {'Description' => 'Add the backdoor to the target.'}],
         ['REMOVE', {'Description' => 'Remove the backdoor from the target.'}]
@@ -53,7 +51,7 @@ class MetasploitModule < Msf::Post
     register_options([
       OptEnum.new('TARGET', [true, 'The target binary to add the exploit to.', 'SETHC', ['SETHC', 'UTILMAN', 'OSK', 'DISP']]),
       OptString.new('EXE', [true, 'Executable to execute when the exploit is triggered.', '%SYSTEMROOT%\system32\cmd.exe'])
-    ], self.class)
+    ])
   end
 
   #

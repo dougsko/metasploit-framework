@@ -4,8 +4,6 @@
 ##
 
 
-require 'msf/core'
-
 
 ###
 #
@@ -29,13 +27,13 @@ module MetasploitModule
       'Author'        => 'joev',
       'License'       => MSF_LICENSE,
       'Platform'      => 'bsd',
-      'Arch'          => ARCH_X86_64))
+      'Arch'          => ARCH_X64))
 
     # Register exec options
     register_options(
       [
         OptString.new('CMD',  [ true,  "The command string to execute" ]),
-      ], self.class)
+      ])
   end
 
   #

@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'net/ssh'
 
 class MetasploitModule < Msf::Auxiliary
@@ -11,6 +10,7 @@ class MetasploitModule < Msf::Auxiliary
   include Msf::Auxiliary::Scanner
   include Msf::Auxiliary::Report
   include Msf::Auxiliary::CommandShell
+  include Msf::Exploit::Remote::SSH
 
   def initialize(info = {})
     super(update_info(info,
@@ -79,16 +79,15 @@ class MetasploitModule < Msf::Auxiliary
 
   def check_user(ip, user, port)
     pass = Rex::Text.rand_text_alphanumeric(64_000)
-
+    factory = ssh_socket_factory
     opt_hash = {
       :auth_methods  => ['password', 'keyboard-interactive'],
-      :msframework   => framework,
-      :msfmodule     => self,
       :port          => port,
-      :disable_agent => true,
+      :use_agent     => false,
       :password      => pass,
       :config        => false,
-      :proxies       => datastore['Proxies']
+      :proxy         => factory,
+      :non_interactive => true
     }
 
     opt_hash.merge!(:verbose => :debug) if datastore['SSH_DEBUG']

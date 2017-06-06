@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'rexml/document'
 
 class MetasploitModule < Msf::Auxiliary
@@ -42,7 +41,7 @@ class MetasploitModule < Msf::Auxiliary
       [
         Opt::RPORT(8400),
         OptString.new('TARGETURI', [ true,  'Eventlog Analyzer application URI (should be /event for version 7)', '/']),
-      ], self.class)
+      ])
   end
 
 
@@ -90,7 +89,7 @@ class MetasploitModule < Msf::Auxiliary
       end
     end
 
-    cred_table = Rex::Ui::Text::Table.new(
+    cred_table = Rex::Text::Table.new(
       'Header'  => 'ManageEngine EventLog Analyzer Managed Devices Credentials',
       'Indent'  => 1,
       'Columns' =>

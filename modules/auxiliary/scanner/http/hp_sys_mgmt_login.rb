@@ -3,7 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
 require 'metasploit/framework/login_scanner/smh'
 require 'metasploit/framework/credential_collection'
 
@@ -37,7 +36,7 @@ class MetasploitModule < Msf::Auxiliary
       OptString.new('LOGIN_URL', [true, 'The URL that handles the login process', '/proxy/ssllogin']),
       OptString.new('CPQLOGIN', [true, 'The homepage of the login', '/cpqlogin.htm']),
       OptString.new('LOGIN_REDIRECT', [true, 'The URL to redirect to', '/cpqlogin'])
-    ], self.class)
+    ])
   end
 
   def get_version(res)
@@ -74,10 +73,10 @@ class MetasploitModule < Msf::Auxiliary
     @cred_collection = Metasploit::Framework::CredentialCollection.new(
       blank_passwords: datastore['BLANK_PASSWORDS'],
       pass_file:       datastore['PASS_FILE'],
-      password:        datastore['PASSWORD'],
+      password:        datastore['HttpPassword'],
       user_file:       datastore['USER_FILE'],
       userpass_file:   datastore['USERPASS_FILE'],
-      username:        datastore['USERNAME'],
+      username:        datastore['HttpUsername'],
       user_as_pass:    datastore['USER_AS_PASS']
     )
 
@@ -87,7 +86,9 @@ class MetasploitModule < Msf::Auxiliary
         cred_details:       @cred_collection,
         stop_on_success:    datastore['STOP_ON_SUCCESS'],
         bruteforce_speed:   datastore['BRUTEFORCE_SPEED'],
-        connection_timeout: 5
+        connection_timeout: 5,
+        http_username:      datastore['HttpUsername'],
+        http_password:      datastore['HttpPassword']
       )
     )
   end

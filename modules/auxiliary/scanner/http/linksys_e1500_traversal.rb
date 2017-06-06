@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
 
   include Msf::Exploit::Remote::HttpClient
@@ -33,10 +31,10 @@ class MetasploitModule < Msf::Auxiliary
       [
         OptPath.new('SENSITIVE_FILES',  [ true, "File containing senstive files, one per line",
           File.join(Msf::Config.data_directory, "wordlists", "sensitive_files.txt") ]),
-        OptString.new('USERNAME',[ true, 'User to login with', 'admin']),
-        OptString.new('PASSWORD',[ true, 'Password to login with', 'password']),
+        OptString.new('HttpUsername',[ true, 'User to login with', 'admin']),
+        OptString.new('HttpPassword',[ true, 'Password to login with', 'password']),
 
-      ], self.class)
+      ])
   end
 
   def extract_words(wordfile)
@@ -91,8 +89,8 @@ class MetasploitModule < Msf::Auxiliary
   end
 
   def run_host(ip)
-    user = datastore['USERNAME']
-    pass = datastore['PASSWORD']
+    user = datastore['HttpUsername']
+    pass = datastore['HttpPassword']
 
     vprint_status("#{rhost}:#{rport} - Trying to login with #{user} / #{pass}")
 

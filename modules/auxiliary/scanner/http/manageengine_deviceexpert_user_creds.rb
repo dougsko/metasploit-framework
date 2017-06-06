@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
   include Msf::Auxiliary::Report
   include Msf::Auxiliary::Scanner
@@ -38,7 +36,7 @@ class MetasploitModule < Msf::Auxiliary
       [
         Opt::RPORT(6060),
         OptBool.new('SSL', [true, 'Use SSL', true])
-      ], self.class)
+      ])
     deregister_options('RHOST')
   end
 
@@ -93,7 +91,7 @@ class MetasploitModule < Msf::Auxiliary
       workspace_id: myworkspace_id
     }
 
-    cred_table = Rex::Ui::Text::Table.new(
+    cred_table = Rex::Text::Table.new(
       'Header'  => 'ManageEngine DeviceExpert User Credentials',
       'Indent'  => 1,
       'Columns' =>

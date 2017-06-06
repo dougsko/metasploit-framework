@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
 
   include Msf::Exploit::Remote::HttpClient
@@ -37,8 +35,10 @@ class MetasploitModule < Msf::Auxiliary
         OptString.new('TARGETURI', [false, 'Path to the SAP Management Console ', '/']),
         OptPath.new('USER_FILE', [ false, "File containing users, one per line",
                                    File.join(Msf::Config.data_directory, "wordlists", "sap_common.txt") ])
-      ], self.class)
+      ])
     register_autofilter_ports([ 50013 ])
+
+    deregister_options('HttpUsername', 'HttpPassword')
   end
 
   def run_host(rhost)

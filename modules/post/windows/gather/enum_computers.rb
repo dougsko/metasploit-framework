@@ -3,9 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-require 'rex'
-
 class MetasploitModule < Msf::Post
 
   include Msf::Post::File
@@ -76,7 +73,7 @@ class MetasploitModule < Msf::Post
   end
 
   def list_computers(domain,hosts)
-    tbl = Rex::Ui::Text::Table.new(
+    tbl = Rex::Text::Table.new(
       'Header'  => "List of Domain Hosts for the primary Domain.",
       'Indent'  => 1,
       'Columns' =>

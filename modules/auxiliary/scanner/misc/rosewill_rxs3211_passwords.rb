@@ -4,11 +4,9 @@
 ##
 
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
 
-  include Msf::Exploit::Remote::Tcp
+  include Msf::Exploit::Remote::Udp
   include Msf::Auxiliary::Report
   include Msf::Auxiliary::Scanner
 
@@ -30,7 +28,7 @@ class MetasploitModule < Msf::Auxiliary
       [
         Opt::CHOST,
         Opt::RPORT(13364),
-      ], self.class)
+      ])
   end
 
   def run_host(ip)
@@ -42,8 +40,6 @@ class MetasploitModule < Msf::Auxiliary
     password = nil
 
     begin
-      # Create an unbound UDP socket if no CHOST is specified, otherwise
-      # create a UDP socket bound to CHOST (in order to avail of pivoting)
       udp_sock = Rex::Socket::Udp.create( {
         'LocalHost' => datastore['CHOST'] || nil,
         'PeerHost'  => ip,

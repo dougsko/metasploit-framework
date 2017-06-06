@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-require 'rex'
 require 'yaml'
 
 class MetasploitModule < Msf::Post
@@ -28,7 +26,8 @@ class MetasploitModule < Msf::Post
   end
 
   def run
-    if session.platform =~ /win/
+    case session.platform
+    when 'windows'
       if session.type == 'meterpreter'
         begin
           res = cmd_exec('c:\\Program Files\\Oracle\\VirtualBox\\vboxmanage', 'list -l vms')
@@ -48,7 +47,7 @@ class MetasploitModule < Msf::Post
           return nil
         end
       end
-    elsif session.platform =~ /unix|linux|bsd|osx/
+    when 'unix', 'linux', 'bsd', 'osx'
       res = cmd_exec('vboxmanage list -l vms')
 
       unless res.start_with?('Sun VirtualBox') || res.include?('Name:')

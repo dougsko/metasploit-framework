@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'rex'
-require 'msf/core'
 require 'msf/core/auxiliary/report'
 
 class MetasploitModule < Msf::Post
@@ -35,7 +33,7 @@ class MetasploitModule < Msf::Post
 
     register_options([
       OptString.new('FILTER', [true, 'Search filter, DOM_REPL will be automatically replaced', '(&(objectCategory=user)(memberOf=CN=Domain Admins,CN=Users,DOM_REPL))'])
-    ], self.class)
+    ])
 
     deregister_options('FIELDS')
   end
@@ -74,7 +72,7 @@ class MetasploitModule < Msf::Post
     fields << "Host"
 
     # Results table holds raw string data
-    results_table = Rex::Ui::Text::Table.new(
+    results_table = Rex::Text::Table.new(
       'Header'     => "Service Principal Names",
       'Indent'     => 1,
       'SortIndex'  => -1,

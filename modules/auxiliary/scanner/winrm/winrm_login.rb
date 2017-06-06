@@ -4,7 +4,6 @@
 ##
 
 
-require 'msf/core'
 require 'rex/proto/ntlm/message'
 require 'metasploit/framework/credential_collection'
 require 'metasploit/framework/login_scanner'
@@ -35,7 +34,6 @@ class MetasploitModule < Msf::Auxiliary
         ],
       'License'        => MSF_LICENSE
     )
-
   end
 
 

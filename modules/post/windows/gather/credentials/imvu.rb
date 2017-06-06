@@ -7,7 +7,6 @@
 
 
 
-require 'msf/core'
 require 'msf/core/auxiliary/report'
 
 class MetasploitModule < Msf::Post
@@ -37,7 +36,7 @@ class MetasploitModule < Msf::Post
 
   def run
 
-    creds = Rex::Ui::Text::Table.new(
+    creds = Rex::Text::Table.new(
       'Header' => 'IMVU Credentials',
       'Indent' => 1,
       'Columns' =>[

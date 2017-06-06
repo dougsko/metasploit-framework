@@ -3,8 +3,6 @@
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
-require 'msf/core'
-
 class MetasploitModule < Msf::Auxiliary
 
   include Msf::Auxiliary::Report
@@ -43,7 +41,7 @@ class MetasploitModule < Msf::Auxiliary
         OptInt.new("NODE", [false, 'Valid Node ID']),
         OptInt.new("MINNODE", [true, 'Valid Node ID', 1]),
         OptInt.new("MAXNODE", [true, 'Valid Node ID', 100])
-      ], self.class)
+      ])
   end
 
   def exists_node?(id)
@@ -189,7 +187,7 @@ class MetasploitModule < Msf::Auxiliary
     count_users = data.to_i
     print_good("#{count_users} users found. Collecting credentials...")
 
-    users_table = Rex::Ui::Text::Table.new(
+    users_table = Rex::Text::Table.new(
       'Header'  => 'vBulletin Users',
       'Indent'   => 1,
       'Columns' => ['Username', 'Password Hash', 'Salt']

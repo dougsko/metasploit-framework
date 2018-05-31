@@ -1093,7 +1093,7 @@
 =======
 >>>>>>> ee28b1a90e3162d0936fada451d392642716f256
 ##
-# This module requires Metasploit: http://metasploit.com/download
+# This module requires Metasploit: https://metasploit.com/download
 # Current source: https://github.com/rapid7/metasploit-framework
 ##
 
